@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+httpx
+python-dotenv
+twilio
+openai
+
+# No database driver needed -- call/DNC state lives in an in-memory store
+# (app/store.py), not Postgres. See README for the tradeoffs of that.
