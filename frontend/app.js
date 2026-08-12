@@ -10,7 +10,7 @@
   // STATE MANAGEMENT
   // =========================================================================
   let state = {
-    apiBaseUrl: localStorage.getItem('pani_paali_api_url') || 'http://localhost:8000',
+    apiBaseUrl: localStorage.getItem('pani_paali_api_url') || 'https://pani-paali-2.onrender.com',
     currentView: 'landingView', // landingView | formView | trackerView
     currentStep: 1, // 1 | 2 | 3 | 4
     
