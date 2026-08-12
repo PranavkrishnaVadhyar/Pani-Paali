@@ -1,6 +1,7 @@
 import os
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.config import get_settings
@@ -9,6 +10,15 @@ from app.routers import calls, contacts, health, webhooks
 settings = get_settings()
 
 app = FastAPI(title="Prank Call Service")
+
+# Wide open for local testing against the standalone frontend/index.html.
+# Tighten allow_origins to your actual frontend origin(s) before any real deployment.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(health.router)
 app.include_router(calls.router)
