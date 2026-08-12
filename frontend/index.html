@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pani Paali — Mischievous Prank Calling Web App</title>
+  <meta name="description" content="Ninte kootukarane nannayi pani vekkam! AI-powered prank caller with soundboards, job interviews, and movie spoilers.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon / Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Decorative background glow blobs -->
+  <div class="glow-blob glow-blob-1"></div>
+  <div class="glow-blob glow-blob-2"></div>
+  <div class="glow-blob glow-blob-3"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="container header-content">
+      <a href="#" class="brand-logo" id="logoLink" aria-label="Pani Paali Home">
+        <div class="brand-icon">🔥</div>
+        <span>Pani Paali</span>
+      </a>
+      
+      <div class="header-actions">
+        <!-- API Connection Health Badge -->
+        <div class="health-badge" id="healthBadge" title="Backend Server Status">
+          <div class="status-dot offline" id="healthDot"></div>
+          <span id="healthText">Checking Server...</span>
+        </div>
+        
+        <!-- API Settings Modal Button -->
+        <button class="btn-icon" id="settingsBtn" title="API Configuration" aria-label="API Configuration Settings">
+          ⚙️
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="container">
+
+    <!-- ====================================================================
+         PAGE 1: LANDING PAGE VIEW
+         ==================================================================== -->
+    <section class="view active" id="landingView">
+      <div class="hero-section">
+        <div class="eyebrow-tag">
+          <span>⚡</span> Pani ready ano?
+        </div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Pani Paali</span>
+        </h1>
+        <p class="hero-subhead">
+          Ninte kootukarane nannayi pani vekkam. Call cheyyu, chirikkam, ready!
+        </p>
+        <button class="btn-primary" id="startPrankBtn">
+          <span>Pani Thudangam</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <!-- Prank Type Teasers Grid -->
+      <h2 class="section-title">Select Your Weapon of Choice</h2>
+      <div class="showcase-grid">
+        <div class="showcase-card">
+          <div class="card-icon">🔊</div>
+          <h3>Meme Soundboard</h3>
+          <p>Chirippikkan vendi oru pack meme sounds! Blast hilariously iconic sound effects during the call.</p>
+        </div>
+        
+        <div class="showcase-card">
+          <div class="card-icon">💼</div>
+          <h3>Fake Hiring Manager</h3>
+          <p>Fake interview call — veruthe pedippikkan! Terrify your friend with an urgent, absurd job callback.</p>
+        </div>
+        
+        <div class="showcase-card">
+          <div class="card-icon">🍿</div>
+          <h3>Movie Spoiler</h3>
+          <p>Cinema kadha parayum, spoiler ennu parayathe... Ruin film twists in a surprisingly disguised storyline!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         PAGE 2: MULTI-STEP QUESTIONNAIRE (DYNAMIC FORM VIEW)
+         ==================================================================== -->
+    <section class="view" id="formView">
+      <div class="stepper-header">
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        
+        <div class="step-indicators">
+          <div class="step-node active" id="node1">
+            <div class="step-node-num">1</div>
+            <span class="step-node-text">Select Prank</span>
+          </div>
+          <div class="step-node" id="node2">
+            <div class="step-node-num">2</div>
+            <span class="step-node-text">Recipient</span>
+          </div>
+          <div class="step-node" id="node3">
+            <div class="step-node-num">3</div>
+            <span class="step-node-text">Details</span>
+          </div>
+          <div class="step-node" id="node4">
+            <div class="step-node-num">4</div>
+            <span class="step-node-text">AI Preview</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="form-card">
+        <form id="prankForm" onsubmit="return false;">
+
+          <!-- Error Alert Banner -->
+          <div class="error-box" id="errorBox" role="alert">
+            <span id="errorIcon">⚠️</span>
+            <span id="errorMessage">Error message goes here</span>
+          </div>
+
+          <!-- STEP 1: CHOOSE THE PRANK -->
+          <div class="step-content active" id="step1">
+            <h2 class="step-title">Step 1 — Choose the Prank</h2>
+            <p class="step-subtitle">Pick the type of prank call you want to trigger on your victim.</p>
+
+            <div class="options-grid">
+              <div class="option-card selected" data-value="meme_soundboard" tabindex="0" role="radio" aria-checked="true">
+                <div class="option-icon">🔊</div>
+                <div class="option-title">Meme Soundboard</div>
+                <div class="option-desc">Plays iconic meme sounds & chaos directly over the call.</div>
+              </div>
+
+              <div class="option-card" data-value="hiring_manager" tabindex="0" role="radio" aria-checked="false">
+                <div class="option-icon">💼</div>
+                <div class="option-title">Fake Hiring Manager</div>
+                <div class="option-desc">Fake job interview call to stress them out with ridiculous questions.</div>
+              </div>
+
+              <div class="option-card" data-value="movie_spoiler" tabindex="0" role="radio" aria-checked="false">
+                <div class="option-icon">🍿</div>
+                <div class="option-title">Movie Spoiler</div>
+                <div class="option-desc">Reveals movie spoilers under the guise of an innocuous story.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: WHO ARE YOU CALLING -->
+          <div class="step-content" id="step2">
+            <h2 class="step-title">Step 2 — Who are you calling?</h2>
+            <p class="step-subtitle">Enter your target recipient's contact details.</p>
+
+            <div class="form-group">
+              <label for="contactName" class="form-label">
+                Contact Name <span class="required-star">*</span>
+              </label>
+              <input type="text" id="contactName" class="form-input" placeholder="e.g. Anjali" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contactPhone" class="form-label">
+                Contact Phone Number (E.164 format) <span class="required-star">*</span>
+              </label>
+              <input type="tel" id="contactPhone" class="form-input" placeholder="+919876543210" required>
+              <div class="form-hint">Must start with country code, e.g. +91XXXXXXXXXX or +1XXXXXXXXXX</div>
+            </div>
+          </div>
+
+          <!-- STEP 3: PRANK SPECIFIC DETAILS -->
+          <div class="step-content" id="step3">
+            <h2 class="step-title" id="step3Title">Step 3 — Prank Details</h2>
+            <p class="step-subtitle" id="step3Subtitle">Custom parameters for this prank call.</p>
+
+            <!-- Dynamic Container for Meme Soundboard -->
+            <div id="fieldsMemeSoundboard" class="prank-fields-group">
+              <div class="info-box">
+                <div class="info-icon">🔊</div>
+                <div class="info-text">
+                  <strong>No extra details needed!</strong> Meme soundboard calls will automatically trigger iconic Malayalam sound effects and reactions. Hit next to continue straight through!
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Container for Hiring Manager -->
+            <div id="fieldsHiringManager" class="prank-fields-group" style="display: none;">
+              <div class="info-box">
+                <div class="info-icon">💡</div>
+                <div class="info-text">
+                  All fields below are optional! Leave blank for a random AI pick.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="hiringRole" class="form-label">Job Role / Position</label>
+                <input type="text" id="hiringRole" class="form-input" placeholder="e.g. Senior Coconut Climber Analyst">
+              </div>
+
+              <div class="form-group">
+                <label for="hiringInterviewer" class="form-label">Interviewer Name</label>
+                <input type="text" id="hiringInterviewer" class="form-input" placeholder="e.g. Mr. Alexander Kurien">
+              </div>
+
+              <div class="form-group">
+                <label for="hiringCompany" class="form-label">Company Name</label>
+                <input type="text" id="hiringCompany" class="form-input" placeholder="e.g. Global Tech Solutions Pvt Ltd">
+              </div>
+
+              <div class="form-group">
+                <label for="hiringExtra" class="form-label">Extra AI Instructions</label>
+                <textarea id="hiringExtra" class="form-textarea" placeholder="e.g. Grill them about why they were late to their last job..."></textarea>
+              </div>
+            </div>
+
+            <!-- Dynamic Container for Movie Spoiler -->
+            <div id="fieldsMovieSpoiler" class="prank-fields-group" style="display: none;">
+              <div class="form-group">
+                <label for="movieTitle" class="form-label">
+                  Movie Title <span class="required-star">*</span>
+                </label>
+                <input type="text" id="movieTitle" class="form-input" placeholder="e.g. Drishyam">
+                <div class="form-hint">Required for Movie Spoiler pranks.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="movieNotes" class="form-label">Custom Notes for AI (Optional)</label>
+                <textarea id="movieNotes" class="form-textarea" placeholder="e.g. Emphasize the body under the police station..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="movieCustomStory" class="form-label">Write your own disguised story (Optional)</label>
+                <textarea id="movieCustomStory" class="form-textarea" placeholder="If filled, this completely replaces AI generation with your exact custom script!"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: PREVIEW & SCRIPT EDITOR -->
+          <div class="step-content" id="step4">
+            <h2 class="step-title">Step 4 — AI Script Preview & Review</h2>
+            <p class="step-subtitle">Review and tweak the AI generated script before triggering the live call.</p>
+
+            <!-- Skeleton Loading State -->
+            <div id="previewLoader" class="preview-skeleton" style="display: none;">
+              <p style="color: var(--text-muted); font-size: 0.9rem;">Generating AI call script via backend...</p>
+              <div class="skeleton-line" style="width: 80%;"></div>
+              <div class="skeleton-line" style="width: 95%;"></div>
+              <div class="skeleton-line" style="width: 60%;"></div>
+            </div>
+
+            <!-- Editor Fields -->
+            <div id="previewContent">
+              <div class="form-group">
+                <label for="firstMessage" class="form-label">Opening Line (First Message)</label>
+                <textarea id="firstMessage" class="form-textarea" placeholder="Opening message spoken by the AI..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="systemPrompt" class="form-label">Full System Prompt / Call Script</label>
+                <textarea id="systemPrompt" class="form-textarea" style="min-height: 180px;" placeholder="Full instructions guiding the AI bot during the call..."></textarea>
+              </div>
+
+              <button type="button" class="btn-secondary" id="regenerateBtn" style="margin-top: 0.5rem;">
+                <span>🔄 Regenerate AI Script</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Navigation Actions -->
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="prevStepBtn" style="visibility: hidden;">
+              ← Back
+            </button>
+            <button type="button" class="btn-primary" id="nextStepBtn">
+              <span>Continue</span> →
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         PAGE 3: LIVE CALL STATUS TRACKER VIEW ("Pani Vechu!")
+         ==================================================================== -->
+    <section class="view" id="trackerView">
+      <div class="tracker-card">
+        
+        <!-- Animated Call Pulse Wave -->
+        <div class="radar-container" id="radarContainer">
+          <div class="radar-circle"></div>
+          <div class="radar-circle"></div>
+          <div class="radar-circle"></div>
+          <div class="radar-center-icon" id="radarIcon">📞</div>
+        </div>
+
+        <div class="tracker-header">
+          <h2 class="tracker-title" id="trackerHeadline">Pani vechu! Call ready 🔥</h2>
+          <p class="tracker-subtitle" id="trackerSubhead">Outbound call initiated to recipient.</p>
+        </div>
+
+        <!-- Live Status Pill -->
+        <div>
+          <span class="status-pill queued" id="callStatusPill">
+            <span class="status-dot"></span>
+            <span id="callStatusText">QUEUED</span>
+          </span>
+        </div>
+
+        <!-- Call Metadata Summary Panel -->
+        <div class="call-details-panel">
+          <div class="detail-row">
+            <span class="detail-label">Call ID</span>
+            <span class="detail-value" id="detailCallId">...</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Recipient</span>
+            <span class="detail-value" id="detailContact">...</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Prank Type</span>
+            <span class="detail-value" id="detailPrankType">...</span>
+          </div>
+          <div class="detail-row" id="rowSuccessEval" style="display: none;">
+            <span class="detail-label">Success Evaluation</span>
+            <span class="detail-value" id="detailSuccessEval" style="color: var(--status-online);">...</span>
+          </div>
+        </div>
+
+        <!-- Transcript & Recording Output Section -->
+        <div id="callResultsContainer" style="display: none;">
+          <div class="transcript-section" id="summaryBoxSection" style="display: none;">
+            <h4>AI Call Summary</h4>
+            <div class="transcript-box" id="summaryContent"></div>
+          </div>
+
+          <div class="transcript-section" id="transcriptBoxSection" style="display: none;">
+            <h4>Call Transcript</h4>
+            <div class="transcript-box" id="transcriptContent"></div>
+          </div>
+
+          <div class="transcript-section" id="recordingBoxSection" style="display: none;">
+            <h4>Call Audio Recording</h4>
+            <audio id="audioPlayer" controls src=""></audio>
+          </div>
+        </div>
+
+        <!-- Failure Details Box -->
+        <div class="error-box" id="trackerErrorBox" style="margin-top: 1.5rem;">
+          <span>❌</span>
+          <span id="trackerErrorText">Call execution failed.</span>
+        </div>
+
+        <!-- Action Button to Reset Flow -->
+        <div style="margin-top: 2.5rem;">
+          <button class="btn-primary" id="resetFlowBtn">
+            <span>Pani Someone Else 🔄</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       OPT-OUT (DNC) MODAL
+       ==================================================================== -->
+  <div class="modal-backdrop" id="optOutModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeOptOutBtn" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title">Request Do-Not-Call (Opt-Out)</h3>
+      <p class="modal-subtitle">Add your phone number to our permanent blocklist so you never receive Pani Paali prank calls.</p>
+
+      <form id="optOutForm" onsubmit="return false;">
+        <div class="form-group">
+          <label for="optOutPhone" class="form-label">Phone Number (E.164 format) <span class="required-star">*</span></label>
+          <input type="tel" id="optOutPhone" class="form-input" placeholder="+919876543210" required>
+        </div>
+
+        <div class="form-group">
+          <label for="optOutReason" class="form-label">Reason (Optional)</label>
+          <input type="text" id="optOutReason" class="form-input" placeholder="e.g. Do not wish to participate">
+        </div>
+
+        <div class="error-box" id="optOutErrorBox">
+          <span id="optOutErrorText"></span>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submitOptOutBtn" style="width: 100%;">
+          <span>Submit Opt-Out Request</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       API CONFIGURATION SETTINGS MODAL
+       ==================================================================== -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeSettingsBtn" aria-label="Close modal">&times;</button>
+      <h3 class="modal-title">API Configuration</h3>
+      <p class="modal-subtitle">Configure the backend API URL for local testing or production deployments.</p>
+
+      <div class="form-group">
+        <label for="apiBaseUrlInput" class="form-label">Backend API Base URL</label>
+        <input type="url" id="apiBaseUrlInput" class="form-input" value="http://localhost:8000">
+        <div class="form-hint">Default is http://localhost:8000 for local FastAPI backend.</div>
+      </div>
+
+      <button type="button" class="btn-primary" id="saveSettingsBtn" style="width: 100%;">
+        <span>Save Base URL</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container">
+      <p class="footer-consent">
+        Ithu verum thamasaykku matram. Sammadhamillathe aareyum vilikkaruthu — kootukare mathram pani vekku.
+      </p>
+      <div class="footer-links">
+        <a class="footer-link" id="triggerOptOutModal">Do Not Call (Opt-Out)</a>
+        <span>•</span>
+        <a class="footer-link" href="#" id="footerBrandLink">Pani Paali © 2026</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

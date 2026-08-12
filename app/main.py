@@ -30,6 +30,9 @@ app.include_router(webhooks.router)
 os.makedirs(settings.MEME_SOUND_DIR, exist_ok=True)
 app.mount("/media/meme", StaticFiles(directory=settings.MEME_SOUND_DIR), name="meme_sounds")
 
+# Serve the frontend files directly from the root directory
+app.mount("/", StaticFiles(directory="./frontend", html=True), name="static")
+
 
 if __name__ == "__main__":
     import uvicorn
