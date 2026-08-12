@@ -1,5 +1,13 @@
 from functools import lru_cache
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Anchored to this file's location (app/config.py -> app/data/meme_sounds),
+# so it resolves correctly no matter what directory the process was
+# started from. A relative default here would depend on cwd at launch time,
+# which isn't guaranteed to be the project root in every environment.
+_DEFAULT_MEME_SOUND_DIR = str(Path(__file__).resolve().parent / "data" / "meme_sounds")
 
 
 class Settings(BaseSettings):
@@ -31,8 +39,9 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     APP_PORT: int = 8000
 
-    # Meme sound folder (relative to app/ or absolute)
-    MEME_SOUND_DIR: str = "app/data/meme_sounds"
+    # Meme sound folder. Set MEME_SOUND_DIR in .env to override with an
+    # absolute path if you want the audio files stored somewhere else.
+    MEME_SOUND_DIR: str = _DEFAULT_MEME_SOUND_DIR
 
 
 @lru_cache
