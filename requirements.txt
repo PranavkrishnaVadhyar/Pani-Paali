@@ -4,6 +4,7 @@ pydantic
 pydantic-settings
 httpx
 python-dotenv
+python-multipart
 twilio
 openai
 
